@@ -1,20 +1,25 @@
-use std::any::Any;
-use std::collections::HashMap;
-use MessageExchanger::Message;
+mod message_passing{
+    pub mod message;
+}
 
-#[derive(Debug)]
+use message_passing::message::{Message, MEHolder};
+
+#[derive(Debug, Clone)]
 struct Person{
     name: String,
     surname: String,
 }
 
+impl Holder for Person{} // important trait
 
 fn main() {
-
-
-    let message:Message = Message<Person>::new(
-        name: "Suleyman".to_string(),
-        surname: "Suleymanzade".to_string()
+    let message:Message<Person> = Message::new(
+        Person{
+            name: "Suleyman".to_string(),
+            surname: "Suleymanzade".to_string()
+        }
     );
     
+    let data = message.get_message();
+    println!("{:?}",data);
 }
