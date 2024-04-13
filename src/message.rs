@@ -1,6 +1,19 @@
 use std::collections::HashMap;
 
-pub struct Message{
+pub trait Holder{}
 
-
+pub struct Message<T: Holder, Copy>{
+    buff: T 
 }
+
+impl Message{
+    fn new(&self, data) -> Self{
+        self.buff = data;
+    }
+}
+
+
+
+
+
+
