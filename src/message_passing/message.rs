@@ -1,20 +1,21 @@
 use std::collections::HashMap;
 
-pub trait Holder{}
 
-pub struct Message<T: Holder + Clone>{
-    buff: T 
+pub trait MEHolder: std::fmt::Debug {
+    // your trait definition here
 }
 
-impl<T: Holder + Clone>  Message <T>{
-    pub fn new(data: T) -> Self{
-        Self{
-            buff: data.clone(),
-        }
+pub struct Message {
+    content: Box<dyn MEHolder>,
+}
+
+impl Message {
+    pub fn new(content: Box<dyn MEHolder>) -> Self {
+        Message { content }
     }
 
-    pub fn get_message(&self) -> T{
-        self.buff.clone()
+    pub fn get_message(&self) -> &Box<dyn MEHolder> {
+        &self.content
     }
 }
 
