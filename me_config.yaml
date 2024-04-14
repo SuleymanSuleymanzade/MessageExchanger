@@ -1,0 +1,10 @@
+MessageExchanger:
+  - me_type: local
+  - history_size: 30
+  - file_system:
+      - folder_0:
+          - history_size: 3
+      - folder_1:
+          - history_size: 5
+      - folder_2:
+          - history_size: 7

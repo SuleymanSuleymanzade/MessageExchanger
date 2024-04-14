@@ -42,7 +42,7 @@ impl Message {
             None
         }
     }
-    
+
     pub fn get_keys(&mut self) -> Vec<String>{
         let keys = self.params
             .keys()

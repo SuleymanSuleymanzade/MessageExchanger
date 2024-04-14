@@ -4,7 +4,8 @@ mod message_passing{
 }
 
 use message_passing::message::{Message};
-//use message_passing::message_exchanger::{MessageExchanger};
+use message_passing::message_exchanger::{MessageExchanger, Utils};
+use std::fs::File;
 
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
@@ -33,5 +34,8 @@ fn main() {
 
     // println!("{}", any_value.get_last_update_time());
     // println!("{:?}", any_value.get_keys());
+
+    let util = Utils{};
+    util.read_yaml(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
 
 }
