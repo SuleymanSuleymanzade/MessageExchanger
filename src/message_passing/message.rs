@@ -1,9 +1,11 @@
 use std::any::Any;
 use std::collections::HashMap;
+use chrono::{Local, DateTime};
 
 pub struct Message {
     content: Box<dyn Any>,
     params: HashMap<String, Box<dyn Any>>,
+    last_update:DateTime<Local>,
 }
 
 impl Message {
@@ -11,6 +13,7 @@ impl Message {
         Message{
             content: Box::new(data),
             params: HashMap::new(),
+            last_update:Local::now(),
         }
     }
 
@@ -20,10 +23,12 @@ impl Message {
 
     pub fn set_content<T:Any>(&mut self, value: T){
         self.content = Box::new(value);
+        self.last_update = Local::now();
     }
 
     pub fn set_param<T:Any>(&mut self, key:&str, val:T){
         self.params.insert(key.to_string(), Box::new(val));
+        self.last_update = Local::now();
     }
 
     pub fn get_param<T: Any>(&mut self, key: &str) -> Option<&mut T> {
@@ -36,6 +41,10 @@ impl Message {
         } else {
             None
         }
+    }
+
+    pub fn get_last_update_time(&self) -> String{
+        self.last_update.format("%Y-%m-%d %H:%M:%S").to_string()
     }
 
 }

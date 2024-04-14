@@ -22,15 +22,19 @@ fn main() {
 
     let mut any_value = Message::new("Hello, Rust!");
 
-    let res = any_value.get_content::<&str>();
-    println!("{}", res.unwrap());
+    let res = any_value.get_content::<&str>().unwrap();
+    println!("{}", res);
 
 
     any_value.set_param("first", "hohoho");
+    let res = any_value.get_param::<&str>("first").unwrap();
+    println!("{}", res);
 
-    let res = any_value.get_param::<&str>("first")
-        .unwrap();
+    any_value.set_param("first", "changed from hohoho");
+    let res = any_value.get_param::<&str>("first").unwrap();
 
     println!("{}", res);
+
+    println!("{}", any_value.get_last_update_time());
 
 }

@@ -1,4 +1,4 @@
-## Box Exchanger.
+## Message Exchanger.
 
 Open source project written in Rust for file/folders/object storage system.
 
@@ -11,4 +11,4 @@ Open source project written in Rust for file/folders/object storage system.
 
 - Storages: Windows/Linux folder system, Amazon S3 buckets, SSH based remote storage.
 
-The project in developing stage.
+The project is in developing stage.
