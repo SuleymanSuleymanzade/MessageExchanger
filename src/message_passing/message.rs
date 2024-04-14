@@ -42,6 +42,14 @@ impl Message {
             None
         }
     }
+    
+    pub fn get_keys(&mut self) -> Vec<String>{
+        let keys = self.params
+            .keys()
+            .cloned()
+            .collect();
+        return keys 
+    }
 
     pub fn get_last_update_time(&self) -> String{
         self.last_update.format("%Y-%m-%d %H:%M:%S").to_string()

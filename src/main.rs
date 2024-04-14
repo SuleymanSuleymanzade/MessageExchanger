@@ -26,15 +26,17 @@ fn main() {
     println!("{}", res);
 
 
-    any_value.set_param("first", "hohoho");
-    let res = any_value.get_param::<&str>("first").unwrap();
-    println!("{}", res);
+    // any_value.set_param("first", "hohoho");
+    // let res = any_value.get_param::<&str>("first").unwrap();
+    // println!("{}", res);
 
-    any_value.set_param("first", "changed from hohoho");
-    let res = any_value.get_param::<&str>("first").unwrap();
+    // any_value.set_param("second", "changed from hohoho");
+    // let res = any_value.get_param::<&str>("first").unwrap();
 
-    println!("{}", res);
+    // println!("{}", res);
 
-    println!("{}", any_value.get_last_update_time());
+    // println!("{}", any_value.get_last_update_time());
+
+    println!("{:?}", any_value.get_keys());
 
 }
