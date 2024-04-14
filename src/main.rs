@@ -1,8 +1,10 @@
 mod message_passing{
     pub mod message;
+    pub mod message_exchanger;
 }
 
 use message_passing::message::{Message};
+//use message_passing::message_exchanger::{MessageExchanger};
 
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
@@ -13,30 +15,23 @@ struct Person {
 
 fn main() {
 
-    let mut p: Person = Person{
-        name:"S".to_string(), 
-        surname:"sn".to_string()
-    };
 
-    let any_value = Message::new(42);
-
-    let mut any_value = Message::new("Hello, Rust!");
-
-    let res = any_value.get_content::<&str>().unwrap();
-    println!("{}", res);
+    // let any_value = Message::new(42);
+    
+    // let mut any_value = Message::new("Hello, Rust!");
+    // let res = any_value.get_content::<&str>().unwrap();
+    // println!("{}", res);
 
 
     // any_value.set_param("first", "hohoho");
-    // let res = any_value.get_param::<&str>("first").unwrap();
-    // println!("{}", res);
+    // let first = any_value.get_param::<&str>("first").unwrap();
+    // println!("{}", first);
 
-    // any_value.set_param("second", "changed from hohoho");
-    // let res = any_value.get_param::<&str>("first").unwrap();
-
-    // println!("{}", res);
+    // any_value.set_param("second", 123);
+    // let second = any_value.get_param::<i32>("second").unwrap();
+    // println!("{}", second);
 
     // println!("{}", any_value.get_last_update_time());
-
-    println!("{:?}", any_value.get_keys());
+    // println!("{:?}", any_value.get_keys());
 
 }
