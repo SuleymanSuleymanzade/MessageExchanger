@@ -1,5 +1,5 @@
 MessageExchangerParams:
-  me_type: local
+  root: "./"
   history_size: 30
 
   folders_params:

@@ -34,6 +34,9 @@ fn main() {
 
     let util = Utils {};
     let params: ConfigYaml =
-        util.read_yaml_config(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
+        Utils::read_yaml_config(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
     println!("{:#?}", params);
+
+    let me = MessageExchanger::new(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
+    me.setup();
 }

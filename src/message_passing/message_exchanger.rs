@@ -1,15 +1,12 @@
+use super::message::Message;
+use serde::{Deserialize, Serialize};
+use serde_yaml;
 use std::any::type_name;
 use std::collections::HashMap;
 use std::fs;
 use std::fs::File;
 use std::io::BufReader;
-
-use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
-
-use serde_yaml;
-
-use super::message::Message;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct FolderParams {
@@ -19,7 +16,7 @@ struct FolderParams {
 
 #[derive(Debug, Deserialize, Serialize)]
 struct MessageExchangerParams {
-    me_type: String,
+    root: String,
     history_size: u32,
     folders_params: Vec<FolderParams>,
 }
@@ -31,7 +28,7 @@ pub struct ConfigYaml {
 
 pub struct Utils;
 impl Utils {
-    pub fn read_yaml_config(&self, file_path: &str) -> ConfigYaml {
+    pub fn read_yaml_config(file_path: &str) -> ConfigYaml {
         let local_path = Path::new(file_path)
             .canonicalize()
             .expect("Failed to get the absolute path");
@@ -39,17 +36,39 @@ impl Utils {
         println!("{}", local_path.display());
 
         let file_content = fs::read_to_string(local_path).expect("Failed to read file");
-
-        // Deserialize YAML content
         let params: ConfigYaml =
             serde_yaml::from_str(&file_content).expect("Failed to deserialize YAML");
-
         return params;
     }
 }
 
-pub struct MessageExchanger {}
+#[derive(Debug)]
+pub struct MessageExchanger {
+    state: ConfigYaml, //
+    ops_flag: bool,    //operation flag
+}
 #[allow(dead_code)]
 impl MessageExchanger {
-    pub fn new(&self, conf_file: &str) {}
+    fn create_folders_struct(&self, root_path: &str, folders: &Vec<FolderParams>) {
+        let global_root_path = Path::new(root_path);
+        let _ = fs::create_dir(global_root_path); // creating root dir
+        for i in folders.iter() {
+            let folder = &i.folder;
+            let folder_path = Path::new(global_root_path).join(folder);
+            let _ = fs::create_dir(folder_path);
+        }
+    }
+
+    pub fn setup(&self) {
+        let root_path = &self.state.MessageExchangerParams.root;
+        let folders = &self.state.MessageExchangerParams.folders_params;
+        self.create_folders_struct(root_path, folders)
+    }
+
+    pub fn new(config: &str) -> Self {
+        MessageExchanger {
+            state: Utils::read_yaml_config(config),
+            ops_flag: false,
+        }
+    }
 }
