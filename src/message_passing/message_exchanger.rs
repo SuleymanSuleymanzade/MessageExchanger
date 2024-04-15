@@ -25,13 +25,13 @@ struct MessageExchangerParams {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Config {
+pub struct ConfigYaml {
     MessageExchangerParams: MessageExchangerParams,
 }
 
 pub struct Utils;
 impl Utils {
-    pub fn read_yaml_config(&self, file_path: &str) {
+    pub fn read_yaml_config(&self, file_path: &str) -> ConfigYaml {
         let local_path = Path::new(file_path)
             .canonicalize()
             .expect("Failed to get the absolute path");
@@ -41,10 +41,10 @@ impl Utils {
         let file_content = fs::read_to_string(local_path).expect("Failed to read file");
 
         // Deserialize YAML content
-        let params: Config =
+        let params: ConfigYaml =
             serde_yaml::from_str(&file_content).expect("Failed to deserialize YAML");
 
-        println!("{:#?}", params);
+        return params;
     }
 }
 

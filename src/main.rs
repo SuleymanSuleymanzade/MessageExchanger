@@ -4,7 +4,7 @@ mod message_passing {
 }
 
 use message_passing::message::Message;
-use message_passing::message_exchanger::{MessageExchanger, Utils};
+use message_passing::message_exchanger::{ConfigYaml, MessageExchanger, Utils};
 use std::fs::File;
 
 #[allow(dead_code)]
@@ -33,5 +33,7 @@ fn main() {
     // println!("{:?}", any_value.get_keys());
 
     let util = Utils {};
-    util.read_yaml_config(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
+    let params: ConfigYaml =
+        util.read_yaml_config(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
+    println!("{:#?}", params);
 }
