@@ -1,10 +1,13 @@
-MessageExchanger:
-  - me_type: local
-  - history_size: 30
-  - file_system:
-      - folder_0:
-          - history_size: 3
-      - folder_1:
-          - history_size: 5
-      - folder_2:
-          - history_size: 7
+MessageExchangerParams:
+  me_type: local
+  history_size: 30
+
+  folders_params:
+    - folder: fold_1
+      history_size: 3
+
+    - folder: fold_2
+      history_size: 5
+
+    - folder: fold_3
+      history_size: 4

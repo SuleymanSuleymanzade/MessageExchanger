@@ -1,66 +1,55 @@
+use std::any::type_name;
 use std::collections::HashMap;
+use std::fs;
 use std::fs::File;
 use std::io::BufReader;
 
 use serde::{Deserialize, Serialize};
+use std::path::{Path, PathBuf};
+
 use serde_yaml;
 
 use super::message::Message;
 
-//Create datastructure for serialize config data
 #[derive(Debug, Deserialize, Serialize)]
-struct FileSystem{
-    history_size: Option<u32>,
+struct FolderParams {
+    folder: String,
+    history_size: u32,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct ExchangerState{
-    me_type: Option<String>,
-    history_size: Option<u32>,
-    file_system: Option<HashMap<String, FileSystem>>,
+struct MessageExchangerParams {
+    me_type: String,
+    history_size: u32,
+    folders_params: Vec<FolderParams>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+struct Config {
+    MessageExchangerParams: MessageExchangerParams,
 }
 
 pub struct Utils;
-impl Utils{
-    pub fn read_yaml(&self, file_path:&str){
-        let file = File::open(file_path).expect("Error: Failed to open the file");
-        let reader = BufReader::new(file);
-        //let exchanger_state:ExchangerState = serde_yaml::from_reader(reader).expect("Failed to decerialize yaml.");
-        println!("{:?}", exchanger_state);
-        match serde_yaml::from_reader::<_, ExchangerState>(reader) {
-            Ok(exchanger_state) => {
-                println!("MessageExchanger:");
-                println!("  me_type: {:?}", exchanger_state.me_type);
-                
-                if let Some(history_size) = exchanger_state.history_size {
-                    println!("  history_size: {}", history_size);
-                }
+impl Utils {
+    pub fn read_yaml_config(&self, file_path: &str) {
+        let local_path = Path::new(file_path)
+            .canonicalize()
+            .expect("Failed to get the absolute path");
 
-                if let Some(file_system) = &exchanger_state.file_system {
-                    println!("  file_system:");
-                    for (folder, fs) in file_system {
-                        println!("    {}: {{", folder);
-                        
-                        if let Some(history_size) = fs.history_size {
-                            println!("      history_size: {}", history_size);
-                        }
-                        
-                        println!("    }}");
-                    }
-                }
-            },
-            Err(e) => println!("Failed to deserialize YAML: {}", e),
+        println!("{}", local_path.display());
+
+        let file_content = fs::read_to_string(local_path).expect("Failed to read file");
+
+        // Deserialize YAML content
+        let params: Config =
+            serde_yaml::from_str(&file_content).expect("Failed to deserialize YAML");
+
+        println!("{:#?}", params);
     }
 }
 
-
-pub struct MessageExchanger{
-
-}
+pub struct MessageExchanger {}
 #[allow(dead_code)]
-impl MessageExchanger{
-
-    pub fn new(&self, conf_file:&str){
-
-    }
+impl MessageExchanger {
+    pub fn new(&self, conf_file: &str) {}
 }

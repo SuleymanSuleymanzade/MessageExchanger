@@ -1,9 +1,9 @@
-mod message_passing{
+mod message_passing {
     pub mod message;
     pub mod message_exchanger;
 }
 
-use message_passing::message::{Message};
+use message_passing::message::Message;
 use message_passing::message_exchanger::{MessageExchanger, Utils};
 use std::fs::File;
 
@@ -15,14 +15,11 @@ struct Person {
 }
 
 fn main() {
-
-
     // let any_value = Message::new(42);
-    
+
     // let mut any_value = Message::new("Hello, Rust!");
     // let res = any_value.get_content::<&str>().unwrap();
     // println!("{}", res);
-
 
     // any_value.set_param("first", "hohoho");
     // let first = any_value.get_param::<&str>("first").unwrap();
@@ -35,7 +32,6 @@ fn main() {
     // println!("{}", any_value.get_last_update_time());
     // println!("{:?}", any_value.get_keys());
 
-    let util = Utils{};
-    util.read_yaml(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
-
+    let util = Utils {};
+    util.read_yaml_config(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
 }
