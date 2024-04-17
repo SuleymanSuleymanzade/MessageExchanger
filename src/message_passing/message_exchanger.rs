@@ -47,14 +47,25 @@ pub struct MessageExchanger {
     state: ConfigYaml, //
     ops_flag: bool,    //operation flag
 }
+
 #[allow(dead_code)]
 impl MessageExchanger {
     fn create_folders_struct(&self, root_path: &str, folders: &Vec<FolderParams>) {
-        let global_root_path = Path::new(root_path);
-        let _ = fs::create_dir(global_root_path); // creating root dir
+        let last_symbol = root_path.chars().last().unwrap_or_default();
+        let mut global_root_path = PathBuf::from(root_path);
+
+        if last_symbol == '/' {
+            global_root_path.push("airflow_exchange");
+        }
+
+        // Creating root dir
+        fs::create_dir(&global_root_path);
+
+        let _ = fs::create_dir(&global_root_path); // creating root dir
         for i in folders.iter() {
             let folder = &i.folder;
-            let folder_path = Path::new(global_root_path).join(folder);
+            let folder_path = Path::new(&&global_root_path).join(folder);
+            println!("{}", folder_path.display());
             let _ = fs::create_dir(folder_path);
         }
     }
