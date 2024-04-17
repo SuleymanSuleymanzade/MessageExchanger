@@ -37,6 +37,6 @@ fn main() {
         Utils::read_yaml_config(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
     println!("{:#?}", params);
 
-    let me = MessageExchanger::new(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
+    let mut me = MessageExchanger::new(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
     me.setup();
 }

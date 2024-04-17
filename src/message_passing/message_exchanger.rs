@@ -8,20 +8,20 @@ use std::fs::File;
 use std::io::BufReader;
 use std::path::{Path, PathBuf};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 struct FolderParams {
     folder: String,
     history_size: u32,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 struct MessageExchangerParams {
     root: String,
     history_size: u32,
     folders_params: Vec<FolderParams>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ConfigYaml {
     MessageExchangerParams: MessageExchangerParams,
 }
@@ -44,22 +44,22 @@ impl Utils {
 
 #[derive(Debug)]
 pub struct MessageExchanger {
-    state: ConfigYaml, //
-    ops_flag: bool,    //operation flag
+    state: ConfigYaml,
+    root: Option<PathBuf>, //operation flag
 }
 
 #[allow(dead_code)]
 impl MessageExchanger {
-    fn create_folders_struct(&self, root_path: &str, folders: &Vec<FolderParams>) {
+    fn create_folders_struct(&mut self, root_path: &str, folders: &Vec<FolderParams>) {
         let last_symbol = root_path.chars().last().unwrap_or_default();
         let mut global_root_path = PathBuf::from(root_path);
 
         if last_symbol == '/' {
             global_root_path.push("airflow_exchange");
         }
-
+        self.root = Some(global_root_path.clone());
         // Creating root dir
-        fs::create_dir(&global_root_path);
+        let _ = fs::create_dir(&global_root_path);
 
         let _ = fs::create_dir(&global_root_path); // creating root dir
         for i in folders.iter() {
@@ -70,16 +70,16 @@ impl MessageExchanger {
         }
     }
 
-    pub fn setup(&self) {
-        let root_path = &self.state.MessageExchangerParams.root;
-        let folders = &self.state.MessageExchangerParams.folders_params;
-        self.create_folders_struct(root_path, folders)
+    pub fn setup(&mut self) {
+        let root_path = self.state.MessageExchangerParams.root.clone();
+        let folders = self.state.MessageExchangerParams.folders_params.clone();
+        self.create_folders_struct(&root_path, &folders)
     }
 
     pub fn new(config: &str) -> Self {
         MessageExchanger {
             state: Utils::read_yaml_config(config),
-            ops_flag: false,
+            root: None,
         }
     }
 }
