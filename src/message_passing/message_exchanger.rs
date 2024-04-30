@@ -2,6 +2,7 @@ use super::message::Message;
 use serde::{Deserialize, Serialize};
 use serde_yaml;
 use std::any::type_name;
+use std::any::Any;
 use std::collections::HashMap;
 use std::fs;
 use std::fs::File;
@@ -81,5 +82,9 @@ impl MessageExchanger {
             state: Utils::read_yaml_config(config),
             root: None,
         }
+    }
+
+    pub fn push<T: Clone + 'static>(&mut self, data: T) {
+        let mut msg = Message::new(data.clone());
     }
 }

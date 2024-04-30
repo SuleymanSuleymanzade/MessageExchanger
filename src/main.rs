@@ -39,4 +39,6 @@ fn main() {
 
     let mut me = MessageExchanger::new(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
     me.setup();
+
+    println!("{:?}", me);
 }
