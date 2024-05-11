@@ -46,7 +46,7 @@ impl Utils {
 #[derive(Debug)]
 pub struct MessageExchanger {
     state: ConfigYaml,
-    root: Option<PathBuf>, //operation flag
+    root: String, //operation flag
 }
 
 #[allow(dead_code)]
@@ -58,7 +58,7 @@ impl MessageExchanger {
         if last_symbol == '/' {
             global_root_path.push("airflow_exchange");
         }
-        self.root = Some(global_root_path.clone());
+        //self.root = Some(global_root_path.clone());
         // Creating root dir
         let _ = fs::create_dir(&global_root_path);
 
@@ -78,13 +78,19 @@ impl MessageExchanger {
     }
 
     pub fn new(config: &str) -> Self {
+        let config_data = Utils::read_yaml_config(config);
+        let root_folder:String = config_data.MessageExchangerParams.root.clone();
+
         MessageExchanger {
-            state: Utils::read_yaml_config(config),
-            root: None,
+            state: config_data,
+            root: root_folder,
         }
     }
 
-    pub fn push<T: Clone + 'static>(&mut self, data: T) {
+    pub fn push<T: Clone + 'static>(&self, target:&str, data: T){
         let mut msg = Message::new(data.clone());
+        //prepare message for sending to the target folder 
+        
+    
     }
 }

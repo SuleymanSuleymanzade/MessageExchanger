@@ -34,10 +34,10 @@ fn main() {
 
     let util = Utils {};
     let params: ConfigYaml =
-        Utils::read_yaml_config(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
+        Utils::read_yaml_config(r"/home/suleyman/Documents/projects/MessageExchanger/me_config.yaml");
     println!("{:#?}", params);
 
-    let mut me = MessageExchanger::new(r"C:\Users\sul_s\Documents\MessageExchanger\me_config.yaml");
+    let mut me = MessageExchanger::new(r"/home/suleyman/Documents/projects/MessageExchanger/me_config.yaml");
     me.setup();
 
     println!("{:?}", me);
